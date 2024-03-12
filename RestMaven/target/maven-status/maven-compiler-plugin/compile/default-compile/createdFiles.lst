@@ -1,0 +1,4 @@
+com\mycompany\restmaven\AlumnoResources.class
+com\mycompany\restmaven\resources\JakartaEE91Resource.class
+RestfulJavaClient\ClienteAlumno.class
+com\mycompany\restmaven\JakartaRestConfiguration.class
