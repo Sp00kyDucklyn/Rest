@@ -70,43 +70,62 @@ public class AlumnoResources {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam("id") int id) {
-    //TODO return proper representation object
-        return Response.ok().entity(new Alumno(1, "Diego")).build();
+        //TODO return proper representation object
+        AlumnosDAO alumnosDAO = new AlumnosDAO();
+        Alumno alumno = alumnosDAO.buscarPorIdAlumno(id);
+        if (alumno != null) {
+            return Response.status(200).entity(alumno).build();
+        }
+        return Response.status(404).build();
 
     }
 
-//    @GET
-//    @Path("query")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getUsuarios(@QueryParam("from") int from, @QueryParam("to") int to, @QueryParam("orderBy") List body) {
-////TODO return proper representation object
-//
-//        return Response.status(200).entity("From " + from + "to " + to + "orderBy " + body.toString()).build();
-//
-//    }
     @GET
-    @Path("/query")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUsuariosQuery(
-            @QueryParam("from") int from,
-            @QueryParam("to") int to,
-            @QueryParam("orderBy") String orderBy) {
+@Path("/query")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getUsuariosQuery(
+        @QueryParam("id") Integer id,
+        @QueryParam("nombre") String nombre) {
 
-        // Verificar si se ha proporcionado el parámetro "orderBy"
-        if (orderBy != null && !orderBy.isEmpty()) {
-            return Response.status(200).entity("From " + from + " to " + to + " orderBy " + orderBy).build();
+    if (id != null && nombre != null && !nombre.isEmpty()) {
+        AlumnosDAO alumnosDAO = new AlumnosDAO();
+        Alumno alumno = alumnosDAO.buscarPorIdAlumnoYNombre(id, nombre);
+        if (alumno != null) {
+            return Response.status(Response.Status.OK).entity(alumno).build();
         } else {
-            return Response.status(400).entity("El parámetro 'orderBy' es obligatorio").build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+    if (id != null) {
+        AlumnosDAO alumnosDAO = new AlumnosDAO();
+        Alumno alumno = alumnosDAO.buscarPorIdAlumno(id);
+        if (alumno != null) {
+            return Response.status(Response.Status.OK).entity(alumno).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+    if (nombre != null && !nombre.isEmpty()) {
+        AlumnosDAO alumnosDAO = new AlumnosDAO();
+        List<Alumno> alumnos = alumnosDAO.buscarPorNombre(nombre);
+        if (!alumnos.isEmpty()) {
+            return Response.status(Response.Status.OK).entity(alumnos).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    return Response.status(400).entity("Se debe proporcionar al menos un parámetro 'id' o 'nombre'").build();
+
+}
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAlumno(Alumno alumno) {
-
         AlumnosDAO alumnosDAO = new AlumnosDAO();
         alumnosDAO.guardar(alumno);
+        
         return Response.status(200).entity(alumno).build();
     }
 
@@ -116,14 +135,15 @@ public class AlumnoResources {
         AlumnosDAO alumnosDAO = new AlumnosDAO();
         Alumno alumno = new Alumno(id);
         alumnosDAO.eliminar(alumno);
-        return Response.status(200).entity(alumno).build();
+        return Response.status(Response.Status.OK).entity(alumno).build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response actualizarAlumno(Alumno a) {
-        a.setNombre("cachado");
-        return Response.ok().entity(a).build();
+        AlumnosDAO alumnosDAO = new AlumnosDAO();
+        Alumno nuevo = alumnosDAO.editar(a);
+        return Response.status(Response.Status.OK).entity(nuevo).build();
     }
 }

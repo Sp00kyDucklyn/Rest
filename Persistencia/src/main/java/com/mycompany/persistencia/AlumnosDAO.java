@@ -7,6 +7,7 @@ package com.mycompany.persistencia;
 import Entidades.Alumno;
 import java.util.List;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,16 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author diego
  */
 public class AlumnosDAO {
+
     private ConexionBD conexion;
 
     public AlumnosDAO() {
         this.conexion = new ConexionBD();
     }
+
     public List<Alumno> listaAlumnos() {
         List<Alumno> listaAlumnos = new ArrayList<>();
         try {
@@ -43,6 +47,47 @@ public class AlumnosDAO {
             Logger.getLogger(AlumnosDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaAlumnos;
+    }
+
+    public Alumno buscarPorIdAlumnoYNombre(int idAlumno, String nombre) {
+        Alumno alumnoEncontrado = null;
+        try {
+            Connection conex = this.conexion.crearConexion();
+            String querySql = "SELECT * FROM Alumno WHERE idAlumno = ? AND nombre = ?";
+            PreparedStatement comandoSQL = conex.prepareStatement(querySql);
+            comandoSQL.setInt(1, idAlumno);
+            comandoSQL.setString(2, nombre);
+            ResultSet resultado = comandoSQL.executeQuery();
+
+            if (resultado.next()) {
+                alumnoEncontrado = new Alumno(idAlumno, nombre);
+            }
+            conex.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alumnoEncontrado;
+    }
+
+    public List<Alumno> buscarPorNombre(String nombre) {
+        List<Alumno> alumnosEncontrados = new ArrayList<>();
+        try {
+            Connection conex = this.conexion.crearConexion();
+            String querySql = "SELECT * FROM Alumno WHERE nombre = ?";
+            PreparedStatement comandoSQL = conex.prepareStatement(querySql);
+            comandoSQL.setString(1, nombre);
+            ResultSet resultado = comandoSQL.executeQuery();
+
+            while (resultado.next()) {
+                int idAlumno = resultado.getInt("idAlumno");
+                Alumno alumno = new Alumno(idAlumno, nombre);
+                alumnosEncontrados.add(alumno);
+            }
+            conex.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alumnosEncontrados;
     }
 
     public Alumno buscarPorIdAlumno(int idAlumno) {
@@ -80,7 +125,8 @@ public class AlumnosDAO {
         }
         return alumno;
     }
-     public Alumno editar(Alumno alumno) {
+
+    public Alumno editar(Alumno alumno) {
         try {
             Connection conex = this.conexion.crearConexion();
             Statement comando = conex.createStatement();

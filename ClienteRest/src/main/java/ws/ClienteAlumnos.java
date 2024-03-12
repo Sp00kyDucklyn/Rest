@@ -12,6 +12,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
+
 /**
  * Jersey REST client generated for REST resource:AlumnoResources [alumno]<br>
  * USAGE:
@@ -25,7 +26,6 @@ import jakarta.ws.rs.core.MediaType;
  * @author lv1822
  */
 
-
 public class ClienteAlumnos {
 
     private WebTarget webTarget;
@@ -33,12 +33,12 @@ public class ClienteAlumnos {
     private static final String BASE_URI = "http://localhost:8080/RestMaven/resources";
 
     public ClienteAlumnos() {
-        client = ClientBuilder.newClient();
+        client = jakarta.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("alumno");
     }
 
-    public void putJson(Object requestEntity) throws ClientErrorException {
-        webTarget.request(MediaType.APPLICATION_JSON).put(Entity.entity(requestEntity, MediaType.APPLICATION_JSON));
+    public Response actualizarAlumno(Object requestEntity) throws ClientErrorException {
+        return webTarget.request(MediaType.APPLICATION_JSON).put(Entity.entity(requestEntity, MediaType.APPLICATION_JSON), Response.class);
     }
 
     public Response addAlumno(Object requestEntity) throws ClientErrorException {
@@ -51,10 +51,28 @@ public class ClienteAlumnos {
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public <T> T getUsuariosQuery(Class<T> responseType) throws ClientErrorException {
+//    public <T> T getUsuariosQuery(Class<T> responseType, String id, String nombre) throws ClientErrorException {
+//        WebTarget resource = webTarget;
+//        if (id != null && !id.isEmpty()) {
+//            resource = resource.queryParam("id", id);
+//        }
+//        if (nombre != null && !nombre.isEmpty()) {
+//            resource = resource.queryParam("nombre", nombre);
+//        }
+//        resource = resource.path("query");
+//        return resource.request(MediaType.APPLICATION_JSON).get(responseType);
+//    }
+    public <T> T getUsuariosQuery(Class<T> responseType, String id, String nombre) throws ClientErrorException {
         WebTarget resource = webTarget;
+            resource = resource.queryParam("id", id);
+        
+            resource = resource.queryParam("nombre", nombre);
+        
         resource = resource.path("query");
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
+    }
+    public Response delete() throws ClientErrorException {
+        return webTarget.request().delete(Response.class);
     }
 
     public <T> T getJson(Class<T> responseType) throws ClientErrorException {
@@ -65,5 +83,5 @@ public class ClienteAlumnos {
     public void close() {
         client.close();
     }
-    
+
 }

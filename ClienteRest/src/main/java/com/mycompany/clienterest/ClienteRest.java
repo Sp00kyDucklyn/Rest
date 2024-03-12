@@ -22,16 +22,33 @@ public class ClienteRest {
 
     public static void main(String[] args) {
         
-        frmMenu menu = new frmMenu();
-        menu.setVisible(true);
-        
-//            ClienteAlumnos cliente = new ClienteAlumnos();
+//        frmMenu menu = new frmMenu();
+//        menu.setVisible(true);
+//        
+            ClienteAlumnos cliente = new ClienteAlumnos();
 //            ClienteHTTP cliente1 = new ClienteHTTP();
-//            System.out.println("------------------------");
-//            Alumno[] response1 = cliente.getJson(Alumno[].class);
-//            for (Alumno alumno : response1) {
-//                System.out.println(alumno);
-//            }
+            System.out.println("------------------------");
+            Alumno[] response1 = cliente.getJson(Alumno[].class);
+            for (Alumno alumno : response1) {
+                System.out.println(alumno);
+            }
+            
+            System.out.println("---Buscar Por nombre------");
+            Alumno[] response2 = cliente.getUsuariosQuery(Alumno[].class,"","Diego");
+            for (Alumno alumno : response2) {
+                System.out.println(alumno);
+            }
+            System.out.println("---Buscar Por ID------");
+            Alumno response3 = cliente.getUsuariosQuery(Alumno.class,"1",null);
+            System.out.println(response3);
+            System.out.println("---Agregar------------");
+            Alumno alumnoNuevo = new Alumno("Carmen Hernandez");
+            cliente.addAlumno(alumnoNuevo);
+            System.out.println("---Actualiza------------");
+            Alumno alumnoActualiza = new Alumno(1,"Carmen Hernandez");
+            cliente.actualizarAlumno(alumnoActualiza);
+            
+            
 //            System.out.println("------------------------");
 ////            System.out.println(cliente1.get());
 //            System.out.println("------------------------");
