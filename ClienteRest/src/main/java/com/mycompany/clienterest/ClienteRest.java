@@ -5,8 +5,6 @@ package com.mycompany.clienterest;
 
 import Entidades.Alumno;
 import com.google.gson.Gson;
-import jakarta.ws.rs.ClientErrorException;
-import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -24,7 +22,10 @@ public class ClienteRest {
 
     public static void main(String[] args) {
         
-            ClienteAlumnos cliente = new ClienteAlumnos();
+        frmMenu menu = new frmMenu();
+        menu.setVisible(true);
+        
+//            ClienteAlumnos cliente = new ClienteAlumnos();
 //            ClienteHTTP cliente1 = new ClienteHTTP();
 //            System.out.println("------------------------");
 //            Alumno[] response1 = cliente.getJson(Alumno[].class);
@@ -35,14 +36,14 @@ public class ClienteRest {
 ////            System.out.println(cliente1.get());
 //            System.out.println("------------------------");
 ////            
-            String response2 = cliente.getJson(String.class);
-            Gson g = new Gson();
-            Alumno[] listaAlumnos= g.fromJson (response2, Alumno[].class);
-            
-            for (Alumno listaAlumno : listaAlumnos) {
-                System.out.println(listaAlumno);
-            }
-            System.out.println("-------------------");
+//            String response2 = cliente.getJson(String.class);
+//            Gson g = new Gson();
+//            Alumno[] listaAlumnos= g.fromJson (response2, Alumno[].class);
+//            
+//            for (Alumno listaAlumno : listaAlumnos) {
+//                System.out.println(listaAlumno);
+//            }
+//            System.out.println("-------------------");
 //            Alumno enviar = new  Alumno("s");
 //            Response response3 = cliente.addAlumno(enviar);
 //            String regreso = response3.readEntity(String.class);

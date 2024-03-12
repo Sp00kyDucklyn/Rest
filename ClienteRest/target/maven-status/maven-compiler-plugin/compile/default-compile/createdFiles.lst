@@ -1,3 +1,7 @@
 com\mycompany\clienterest\ClienteRest.class
-ws\ClienteAlumnos.class
+com\mycompany\clienterest\frmMenu$3.class
 ws\ClienteHTTP.class
+com\mycompany\clienterest\frmMenu.class
+ws\ClienteAlumnos.class
+com\mycompany\clienterest\frmMenu$1.class
+com\mycompany\clienterest\frmMenu$2.class
