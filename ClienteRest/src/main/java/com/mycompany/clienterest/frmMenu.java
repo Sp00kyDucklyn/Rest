@@ -84,7 +84,40 @@ public class frmMenu extends javax.swing.JFrame {
                 break;
             }
         }
-        consultarTodos(listaAlumnos); // Actualizamos la tabla después de la eliminación
+        consultarTodos(listaAlumnos);
+    }
+    
+    public void insertar(){
+        String nombre = JOptionPane.showInputDialog("Ingrese el nombre del alumno:");
+        if (nombre != null && !nombre.isEmpty()) {
+            Alumno nuevoAlumno = new Alumno(listaAlumnos.size() + 1, nombre);
+            listaAlumnos.add(nuevoAlumno);
+            consultarTodos(listaAlumnos);
+        }
+    }
+    
+    public void actualizarPorId(int idAlumno) {
+        for (Iterator<Alumno> iterator = listaAlumnos.iterator(); iterator.hasNext();) {
+            Alumno alumno = iterator.next();
+            if (alumno.getId() == idAlumno) {
+                
+                
+                String nombreNuevo = JOptionPane.showInputDialog("Ingrese el nombre nuevo del alumno:");
+                
+                if (nombreNuevo != null && !nombreNuevo.isEmpty()) {
+                  
+                    alumno.setNombre(nombreNuevo);
+                    System.out.println("Se ha actualizado el alumno con ID: " + idAlumno);
+                    
+                }else{
+                    System.out.println("La actualización del alumno con ID: "+ idAlumno+" ha sido cancelada");
+                }
+
+               
+                break;
+            }
+        }
+        consultarTodos(listaAlumnos);
     }
 
     /**
@@ -106,8 +139,15 @@ public class frmMenu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtEliminar = new javax.swing.JTextField();
         btnEliminarID = new javax.swing.JButton();
+        lblActualizar = new javax.swing.JLabel();
+        btnInsertar = new javax.swing.JButton();
+        lblInsertar = new javax.swing.JLabel();
+        txtActualizar = new javax.swing.JTextField();
+        btnActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblAlumnos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
@@ -131,6 +171,8 @@ public class frmMenu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblAlumnos);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 57, -1, -1));
+
         btnConsultarID.setBackground(new java.awt.Color(204, 255, 204));
         btnConsultarID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnConsultarID.setText("Consultar");
@@ -139,14 +181,20 @@ public class frmMenu extends javax.swing.JFrame {
                 btnConsultarIDActionPerformed(evt);
             }
         });
+        jPanel1.add(btnConsultarID, new org.netbeans.lib.awtextra.AbsoluteConstraints(201, 16, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Consultar por ID:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 19, -1, -1));
+        jPanel1.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 16, 76, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jackblack.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 228, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Eliminar por ID:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 19, -1, -1));
+        jPanel1.add(txtEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 16, 76, -1));
 
         btnEliminarID.setBackground(new java.awt.Color(204, 255, 204));
         btnEliminarID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -156,52 +204,36 @@ public class frmMenu extends javax.swing.JFrame {
                 btnEliminarIDActionPerformed(evt);
             }
         });
+        jPanel1.add(btnEliminarID, new org.netbeans.lib.awtextra.AbsoluteConstraints(523, 16, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsultarID)
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminarID)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultarID)
-                    .addComponent(jLabel3)
-                    .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarID))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 196, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
+        lblActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblActualizar.setText("Actualizar:");
+        jPanel1.add(lblActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(533, 139, -1, -1));
+
+        btnInsertar.setBackground(new java.awt.Color(204, 255, 204));
+        btnInsertar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnInsertar.setText("Insertar");
+        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 90, -1, -1));
+
+        lblInsertar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblInsertar.setText("Insertar:");
+        jPanel1.add(lblInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(535, 90, -1, -1));
+        jPanel1.add(txtActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(606, 136, 76, -1));
+
+        btnActualizar.setBackground(new java.awt.Color(204, 255, 204));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(694, 136, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,7 +279,7 @@ public class frmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarIDActionPerformed
 
     private void btnEliminarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarIDActionPerformed
-        String idTexto = txtID.getText();
+        String idTexto = txtEliminar.getText();
 
         
 
@@ -267,6 +299,34 @@ public class frmMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarIDActionPerformed
+
+    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
+        // TODO add your handling code here:
+        insertar();
+        
+    }//GEN-LAST:event_btnInsertarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        String idTexto = txtActualizar.getText();
+
+
+        int idActualizar = Integer.parseInt(idTexto);
+        boolean encontrado = false;
+
+        for (Alumno alumno : listaAlumnos) {
+            if (alumno.getId() == idActualizar) {
+                encontrado = true;
+                actualizarPorId(idActualizar);
+                break;
+            }
+        }
+
+        // Si el alumno no se encuentra, mostrar un mensaje al usuario
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,14 +372,19 @@ public class frmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnConsultarID;
     private javax.swing.JButton btnEliminarID;
+    private javax.swing.JButton btnInsertar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblActualizar;
+    private javax.swing.JLabel lblInsertar;
     private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtActualizar;
     private javax.swing.JTextField txtEliminar;
     private javax.swing.JTextField txtID;
     // End of variables declaration//GEN-END:variables
