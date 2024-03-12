@@ -25,7 +25,6 @@ import jakarta.ws.rs.core.MediaType;
  *
  * @author lv1822
  */
-
 public class ClienteAlumnos {
 
     private WebTarget webTarget;
@@ -64,15 +63,24 @@ public class ClienteAlumnos {
 //    }
     public <T> T getUsuariosQuery(Class<T> responseType, String id, String nombre) throws ClientErrorException {
         WebTarget resource = webTarget;
-            resource = resource.queryParam("id", id);
-        
-            resource = resource.queryParam("nombre", nombre);
-        
+        resource = resource.queryParam("id", id);
+
+        resource = resource.queryParam("nombre", nombre);
+
         resource = resource.path("query");
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
+
     public Response delete() throws ClientErrorException {
         return webTarget.request().delete(Response.class);
+    }
+
+    public Response eliminarPorId(String idAlumno) throws ClientErrorException {
+        
+            WebTarget resource = webTarget.path(idAlumno);
+            return resource.request().delete(Response.class);
+         
+        
     }
 
     public <T> T getJson(Class<T> responseType) throws ClientErrorException {

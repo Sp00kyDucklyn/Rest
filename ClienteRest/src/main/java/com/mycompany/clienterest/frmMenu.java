@@ -6,6 +6,7 @@ package com.mycompany.clienterest;
 
 import Entidades.Alumno;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -74,6 +75,18 @@ public class frmMenu extends javax.swing.JFrame {
         tblAlumnos.repaint();
     }
 
+    public void eliminarPorId(int idAlumno) {
+        for (Iterator<Alumno> iterator = listaAlumnos.iterator(); iterator.hasNext();) {
+            Alumno alumno = iterator.next();
+            if (alumno.getId() == idAlumno) {
+                iterator.remove();
+                System.out.println("Se ha eliminado el alumno con ID: " + idAlumno);
+                break;
+            }
+        }
+        consultarTodos(listaAlumnos); // Actualizamos la tabla después de la eliminación
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,6 +103,9 @@ public class frmMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtEliminar = new javax.swing.JTextField();
+        btnEliminarID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +145,18 @@ public class frmMenu extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jackblack.png"))); // NOI18N
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("Eliminar por ID:");
+
+        btnEliminarID.setBackground(new java.awt.Color(204, 255, 204));
+        btnEliminarID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminarID.setText("Eliminar");
+        btnEliminarID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,7 +173,13 @@ public class frmMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsultarID)))
+                        .addComponent(btnConsultarID)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarID)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -155,11 +189,14 @@ public class frmMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultarID))
+                    .addComponent(btnConsultarID)
+                    .addComponent(jLabel3)
+                    .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarID))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 187, Short.MAX_VALUE)
+                        .addGap(0, 196, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,6 +246,28 @@ public class frmMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConsultarIDActionPerformed
 
+    private void btnEliminarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarIDActionPerformed
+        String idTexto = txtID.getText();
+
+        
+
+        int idEliminar = Integer.parseInt(idTexto);
+        boolean encontrado = false;
+
+        for (Alumno alumno : listaAlumnos) {
+            if (alumno.getId() == idEliminar) {
+                encontrado = true;
+                eliminarPorId(idEliminar);
+                break;
+            }
+        }
+
+        // Si el alumno no se encuentra, mostrar un mensaje al usuario
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarIDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,11 +313,14 @@ public class frmMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarID;
+    private javax.swing.JButton btnEliminarID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtEliminar;
     private javax.swing.JTextField txtID;
     // End of variables declaration//GEN-END:variables
 }

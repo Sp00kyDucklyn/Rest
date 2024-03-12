@@ -47,6 +47,8 @@ public class ClienteRest {
             System.out.println("---Actualiza------------");
             Alumno alumnoActualiza = new Alumno(1,"Carmen Hernandez");
             cliente.actualizarAlumno(alumnoActualiza);
+            System.out.println("Borrar por id");
+            cliente.eliminarPorId("1");
             
             
 //            System.out.println("------------------------");

@@ -154,4 +154,20 @@ public class AlumnosDAO {
         }
         return alumno;
     }
+
+    public boolean eliminarPorId(int idAlumno) {
+        try {
+            Connection conex = this.conexion.crearConexion();
+            String querySql = "DELETE FROM Alumno WHERE idAlumno = ?";
+            PreparedStatement comandoSQL = conex.prepareStatement(querySql);
+            comandoSQL.setInt(1, idAlumno);
+            int filasAfectadas = comandoSQL.executeUpdate();
+            conex.close();
+            // Si se eliminó al menos una fila, retornamos true
+            return filasAfectadas > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnosDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }
